@@ -1,0 +1,14 @@
+{
+  "name": "hapi-scriptloader",
+  "version": "0.0.0",
+  "description": "a hapi plugin to aid in loading your scripts in development",
+  "main": "index.js",
+  "author": "",
+  "peerDependencies": {
+    "hapi": "^3.0.0"
+  },
+  "dependencies": {
+    "glob": "^3.2.9",
+    "lodash": "^2.4.1"
+  }
+}
