@@ -40,7 +40,7 @@ exports.register = function(plugin, options, next) {
     Object.keys(scripts).forEach(function(path) {
 
       var files = scripts[path],
-          res = globs(files, globOpts).map(writeScript);
+          res = globs(files, globOpts).map(writeScript).join('\n');
 
       plugin.route({
         method: 'GET',
