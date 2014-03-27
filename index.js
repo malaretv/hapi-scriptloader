@@ -23,9 +23,9 @@ function globs(patterns, options) {
 }
 
 function writeScript(p) {
-  var baseUrl = this.baseUrl;
+  var basePath = this.basePath;
   return 'document.write(\'<script type="text/javascript" src="' +
-    baseUrl + p + '"></script>\');';
+    basePath + p + '"></script>\');';
 }
 
 function globsToUrl(files, options) {
@@ -42,7 +42,7 @@ function globsToUrl(files, options) {
 }
 
 var defaults = {
-  baseUrl: '/',
+  basePath: '/',
   globOptions: {
     cwd: process.cwd()
   }
