@@ -10,7 +10,6 @@ function globs(patterns, options) {
   _.flatten(patterns).forEach(function(pattern) {
     var exclude = pattern.indexOf('!') === 0;
     if (exclude) { pattern = pattern.slice(1); }
-
     var matches = glob.sync(pattern, options);
 
     if (exclude) {
@@ -23,24 +22,39 @@ function globs(patterns, options) {
   return result;
 }
 
-function writeScript(path) {
-  return 'document.write(\'<script type="text/javascript" src="' + path +
-    '"></script>\');';
+function writeScript(p) {
+  var baseUrl = this.baseUrl;
+  return 'document.write(\'<script type="text/javascript" src="' +
+    baseUrl + p + '"></script>\');';
+}
+
+function globsToUrl(files, options) {
+  if (files.options) {
+    options = _.defaults(files.options, options);
+    files = files.files;
+  }
+
+  return _.flatten([].concat(files).map(function(file) {
+    if (file.options) { return globToUrl(file.files, file.options); }
+    return globs(file, options.globOptions)
+              .map(writeScript.bind(options));
+  }));
 }
 
 var defaults = {
-  cwd: process.cwd()
+  baseUrl: '/',
+  globOptions: {
+    cwd: process.cwd()
+  }
 };
 
 exports.register = function(plugin, options, next) {
-  var scripts = options.scripts,
-      globOpts = _.defaults(options.options, defaults);
+  options.options = _.defaults(options.options || {}, defaults);
 
+  var scripts = options.scripts;
   if (scripts) {
     Object.keys(scripts).forEach(function(path) {
-
-      var files = scripts[path],
-          res = globs(files, globOpts).map(writeScript).join('\n');
+      var res = globsToUrl(scripts[path], options.options).join('\n');
 
       plugin.route({
         method: 'GET',
