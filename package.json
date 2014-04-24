@@ -1,6 +1,6 @@
 {
   "name": "hapi-scriptloader",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "a hapi plugin to aid in loading your scripts in development",
   "main": "index.js",
   "author": "",
