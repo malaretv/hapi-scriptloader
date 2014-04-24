@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "",
   "peerDependencies": {
-    "hapi": "^3.0.0"
+    "hapi": ">=3.0.0"
   },
   "dependencies": {
     "glob": "^3.2.9",
